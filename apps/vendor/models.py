@@ -25,13 +25,13 @@ VENDOR_TYPE=(
 
 )
 
-def generate_unique_code(vendor_name):
-    name_split_array = vendor_name.split(" ")
-    if name_split_array > 1:
-        unique_code = name_split_array[0][:2] + name_split_array[1][:2]
-    else:
-        unique_code=vendor_name[:4]
-    return unique_code.upper()    
+# def generate_unique_code(vendor_name):
+#     name_split_array = vendor_name.split(" ")
+#     if len(name_split_array) > 1:
+#         unique_code = name_split_array[0][:2] + name_split_array[1][:2]
+#     else:
+#         unique_code=vendor_name[:4]
+#     return unique_code.upper()    
 
 
 class Vendor(models.Model):
@@ -42,22 +42,22 @@ class Vendor(models.Model):
             message='invalid number',
             code='invalid_phone')])
     vendor_email = models.EmailField(max_length=255,blank=True)
-    unique_code = models.CharField(max_length=10,blank=False,unique=True,editable=False)
+    #unique_code = models.CharField(max_length=10,blank=False,unique=True,editable=False)
     vendor_type = models.CharField(max_length=100,choices=VENDOR_TYPE,blank=True)
     display_image = models.ImageField(upload_to='images/display_images',blank=True)
     is_active = models.BooleanField(default=False)
 
-    def save(self,*args, **kwargs):
-        unique_code=self.unique_code
-        if not unique_code:
-            unique_code=generate_unique_code(self.vendor_name)
-            vendor_by_code = Vendor.objects.filter(Q(unique_code__startswith=unique_code))
-            if len(vendor_by_code) > 1:
-                self.unique_code = self.unique_code + str(len(vendor_by_code))
-            else:
-                self.unique_code = self.unique_code
+    #def save(self,*args, **kwargs):
+        # unique_code=self.unique_code
+        # if not unique_code:
+        #     unique_code=generate_unique_code(self.vendor_name)
+        #     vendor_by_code = Vendor.objects.filter(Q(unique_code__startswith=unique_code))
+        #     if len(vendor_by_code) > 1:
+        #         self.unique_code = self.unique_code + str(len(vendor_by_code))
+        #     else:
+        #         self.unique_code = self.unique_code
 
-        super(Vendor,self).save(*args, **kwargs)        
+        # super(Vendor,self).save(*args, **kwargs)        
 
     def __str__(self):
         return str(self.vendor_name)
@@ -133,7 +133,7 @@ class MenuLocation(models.Model):
     special_info= models.CharField(max_length=100,choices=STATUS_TYPE,blank=True,null=True)
 
     def __str__(self):
-        return  self.menu.item_name + "in"+ self.vendor_location.__str__()
+        return  self.menu.item_name + " in "+ self.vendor_location.__str__()
     
     class Meta:
         """verbose description"""

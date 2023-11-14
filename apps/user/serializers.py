@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser,UserLocation
+from apps.location.models import City, Company, Tower
+from apps.location.serializers import CitySerializer,CompanySerializer,TowerSerializer
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -28,4 +30,87 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         account.set_password(password)
         account.save()
         return account
+
+
+class UserLocationCreateSerializer(serializers.ModelSerializer):
+    city = serializers.SerializerMethodField()
+
+    def get_city(self, obj):
+        city = City.objects.get(id=obj.location.city.id)
+        serializer = CitySerializer(city).data
+        return serializer
+
+    company = serializers.SerializerMethodField()
+
+    def get_company(self, obj):
+        company = Company.objects.get(id=obj.location.company.id)
+        serializer = CompanySerializer(company).data
+        return serializer
+
+    tower = serializers.SerializerMethodField()
+
+    def get_tower(self, obj):
+        tower = Tower.objects.get(id=obj.location.id)
+        serializer =TowerSerializer(tower).data
+        return serializer
+
+    class Meta:
+        model = UserLocation
+        fields = ('user', 'location', 'city', 'company', 'tower')
+        read_only_fields = ('user',)
     
+
+class UserLocationUpdateSerializer(serializers.ModelSerializer):
+    city = serializers.SerializerMethodField()
+
+    def get_city(self, obj):
+        city = City.objects.get(id=obj.location.city.id)
+        serializer = CitySerializer(city).data
+        return serializer
+
+    company = serializers.SerializerMethodField()
+
+    def get_company(self, obj):
+        company = Company.objects.get(id=obj.location.company.id)
+        serializer = CompanySerializer(company).data
+        return serializer
+
+    tower = serializers.SerializerMethodField()
+
+    def get_tower(self, obj):
+        tower = Tower.objects.get(id=obj.location.id)
+        serializer = TowerSerializer(tower).data
+        return serializer
+
+    class Meta:
+        model = UserLocation
+        fields = ('user', 'location', 'city', 'company', 'tower')
+        read_only_fields = ('user',)
+
+
+class UserLocationSerializer(serializers.ModelSerializer):
+    city = serializers.SerializerMethodField()
+
+    def get_city(self, obj):
+        city = City.objects.get(id=obj.location.city.id)
+        serializer = CitySerializer(city).data
+        return serializer
+
+    company = serializers.SerializerMethodField()
+
+    def get_company(self, obj):
+        company = Company.objects.get(id=obj.location.company.id)
+        serializer = CompanySerializer(company).data
+        return serializer
+
+    tower = serializers.SerializerMethodField()
+
+    def get_tower(self, obj):
+        tower = Tower.objects.get(id=obj.location.id)
+        serializer = TowerSerializer(tower).data
+        return serializer
+
+    class Meta:
+        model = UserLocation
+        fields = ('user', 'location', 'city', 'company', 'tower')
+        read_only_fields = ('user',)

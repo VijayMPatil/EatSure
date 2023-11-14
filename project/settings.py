@@ -28,8 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'apps.user',
     'apps.location',
+    'apps.payment',
     'apps.vendor',
     'apps.order',
 ]
@@ -77,9 +79,11 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+   
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+
     ],
 }
 
@@ -123,3 +127,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#GST SOURCE
+GST_PERCENTAGE = 5.0
+GST_INCLUDED_PRICE = True
+MENU_QUANTITY_HIGHER_LIMIT = 20
+MENU_QUANTITY_LOWER_LIMIT = 10
